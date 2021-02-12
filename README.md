@@ -1,6 +1,6 @@
 # Product REST API
 
-REST API to Get, Create and Update for products.
+REST API to Get, Create and Update products.
 
 ### Import Project
 
