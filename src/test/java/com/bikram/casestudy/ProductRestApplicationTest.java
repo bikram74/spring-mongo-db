@@ -59,7 +59,7 @@ public class ProductRestApplicationTest {
         mockMvc.perform(get("/product/13860428")).andDo(print()).andExpect(
                 status().isOk()).andExpect(
                 jsonPath("$.id").value("13860428")).andExpect(
-                jsonPath("$.name").value("The Big Lebowski (Blu-ray)")).andExpect(
+                jsonPath("$.name").value("")).andExpect(
                 jsonPath("$.current_price.value").value(799.99)).andExpect(
                 jsonPath("$.current_price.currency_code").value("USD"));
     }
@@ -124,7 +124,7 @@ public class ProductRestApplicationTest {
                 status().isOk());
 
         mockMvc.perform(get(location)).andExpect(status().isOk()).andExpect(
-                jsonPath("$.name").value("Kraft Macaroni &#38; Cheese Dinner Original - 7.25oz")).andExpect(
+                jsonPath("$.name").value("My TV")).andExpect(
                 jsonPath("$.current_price.value").value(299.49));
 
         productRepository.deleteById("12954218");

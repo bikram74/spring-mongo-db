@@ -5,6 +5,7 @@ import com.bikram.casestudy.model.Product;
 import com.bikram.casestudy.repository.ProductRepository;
 import com.bikram.casestudy.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.BasePathAwareController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ import java.util.Optional;
  * Controller Class for Product REST APIs
  */
 
-@RestController
+@BasePathAwareController
 public class ProductController {
 
     private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
@@ -29,42 +30,6 @@ public class ProductController {
 
     @Autowired
     ProductRepository repository;
-
-    /**
-     *
-     * Method for Getting a product by Id
-     */
-    @GetMapping("/product/{id}")
-    public ResponseEntity<?> getProduct(@PathVariable("id") String id) throws Exception {
-        String name = "";
-        try {
-            name = productService.getProductName(id);
-        } catch (Exception ex){
-            logger.error("Product Name not found.");
-            ex.printStackTrace();
-        }
-        Optional<Product> optional = repository.findById(id);
-
-        //Bad product Id
-        if(!optional.isPresent()){
-            String error = "{\n" +
-                    "   \"error\": {\n" +
-                    "      \"errorCode\": “404”,\n" +
-                    "      \"errorMessage\": \"Product not found.\"\n" +
-                    "   }\n" +
-                    "}";
-            return new ResponseEntity<String>(error,HttpStatus.NOT_FOUND);
-        }
-
-        //Set product name only if it's not blank.
-        if (!name.isEmpty()) {
-            String finalName = name;
-            optional.ifPresent(product -> {
-                product.setName(finalName);
-            });
-        }
-        return new ResponseEntity<Optional>(optional, HttpStatus.OK);
-    }
 
     /**
      *
